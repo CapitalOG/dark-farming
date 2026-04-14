@@ -1,101 +1,144 @@
-# Dark Farming ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â±
+# Dark Farming
 
-*Advanced Agricultural System for RedM*
+Advanced farming resource for RedM servers running VORP.
 
-**Transform your RedM server with immersive farming mechanics** - from planting seeds to harvesting crops, with realistic gameplay elements.
+Dark Farming handles the full crop loop from planting and watering to harvest, with optional fertilizer, planting restrictions, smell detection for law jobs, and post-harvest weed drying and packaging.
 
----
+## Features
 
-## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€¦Ã‚Â¸ Key Features
+- Unlimited crop definitions through `configs/plants.lua`
+- Per-plant control over:
+  - seed item and seed cost
+  - soil requirement
+  - planting tool and durability loss
+  - growth time
+  - rewards
+  - job restrictions
+  - map blips
+  - locked planting coordinates
+  - smell detection
+- Global systems for:
+  - watering cans with limited uses
+  - fertilizer-based grow time reduction
+  - player plant limits
+  - town planting restrictions
+  - house-property planting restrictions
+  - localized notifications
+  - persistent database storage
+- Weed workflow support:
+  - wet buds -> dried buds
+  - dried buds -> packaged bags
 
-### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â¿ Core Farming System**
+## Requirements
 
-- **Unlimited Custom Crops**: Create any number of plant types with unique growth cycles and yields
-- **Resource Management**:
-  - Soil requirements with configurable amounts
-  - Fertilizer system for growth acceleration
-  - Watering mechanics with bucket depletion (auto-replaced with empty buckets)
-- **Ownership System**: Configurable plant locking (planter-only or public access)
+Required:
 
-### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â§ Advanced Configuration**
+- `vorp_core`
+- `vorp_inventory`
+- `vorp_character`
+- `bcc-utils`
+- `oxmysql`
 
-- **Job Restrictions**: Lock plants to specific professions (farmer, outlaw, etc.)
-- **Zone Control**: Town proximity restrictions with adjustable radii
-- **Tool Requirements**: Specify required equipment per crop type
-- **Economic Balancing**: Configure required seed and soil amounts as well as harvest yields
-- **Player Limits**: Set maximum plants per player
+Optional:
 
-### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â» Technical Implementation**
+- `bcc-water` for bucket refilling workflows
+- `bcchousing` table support if `Config.plantSetup.requireHouseOwnership = true`
 
-- **Database Backed**: Persistent storage across server restarts
-- **Localization Ready**: Full multilingual support
-- **Update Notifications**: Built-in version checker
+## Installation
 
-### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â½Ãƒâ€šÃ‚Â® Gameplay Enhancements**
+1. Place the resource folder in your server's `resources` directory.
 
-- **Interactive UI**: Intuitive prompts for all farming actions
-- **Debug System**: Color-coded logging for easy troubleshooting
+2. Ensure the required dependencies start before this resource in `server.cfg`:
 
-*Every feature is configurable through simple, well-documented config files.*
-
----
-
-## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ Requirements
-
-### **Core Dependencies**
-
-- [vorp_core](https://github.com/VORPCORE/vorp-core-lua)
-- [vorp_inventory](https://github.com/VORPCORE/vorp_inventory-lua)
-- [vorp_character](https://github.com/VORPCORE/vorp_character-lua)
-- [bcc-utils](https://github.com/BryceCanyonCounty/bcc-utils)
-
-### **Recommended Addon**
-
-- [bcc-water](https://github.com/BryceCanyonCounty/bcc-water) *(for bucket filling functionality)*
-
----
-
-## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â  Installation Guide
-
-### **1. Prepare Your Server**
-
-```bash
-# Ensure all dependencies are installed and updated
+```cfg
 ensure vorp_core
 ensure vorp_inventory
 ensure vorp_character
 ensure bcc-utils
+ensure oxmysql
+ensure dark-farming
 ```
 
-### **2. Install Dark Farming**
+3. Import `dark-farming.sql` into your database.
 
-1. Place the `dark-farming` folder in your `resources` directory
-2. Add to your `server.cfg`:
+4. Copy the item images from `img/` into your inventory image folder.
 
-   ```cfg
-   ensure bcc-farming
-   ```
+5. Restart the server.
 
-### **3. Database Setup**
+## Configuration
 
-Import the included SQL file: `dark-farming.sql`
+Main settings are in `configs/config.lua`.
 
-### **4. Asset Installation**
+Important options:
 
-Copy images to your inventory system:
+- `Config.defaultlang`: active language file
+- `Config.Notify`: notification backend (`feather-menu` or `vorp-core`)
+- `Config.plantSetup.maxPlants`: plant limit per player
+- `Config.plantSetup.lockedToPlanter`: planter-only harvesting
+- `Config.plantSetup.requireHouseOwnership`: require planting inside owned house plots
+- `Config.townSetup.canPlantInTowns`: allow or block town planting
+- `Config.smelling`: law-job smell detection settings
+- `Config.dryingSetup`: wet bud drying settings
+- `Config.packagingSetup`: packaged weed output settings
+
+Crop definitions live in `configs/plants.lua`.
+
+Each plant can define:
+
+- planting tool requirement
+- seed item and amount
+- soil item and amount
+- prop model
+- growth time
+- harvest rewards
+- job locks
+- smell detection
+- personal blips
+- locked planting spots
+
+## House Plot Integration
+
+If `Config.plantSetup.requireHouseOwnership` is enabled, the script checks the `bcchousing` table for:
+
+- `house_coords`
+- `house_radius_limit`
+- `charidentifier`
+
+If your server does not use that housing table, disable house ownership planting:
+
+```lua
+Config.plantSetup.requireHouseOwnership = false
 ```
-\vorp_inventory\html\img\items\*.png
-```
 
-### **5. Final Steps**
+## Database Notes
 
-- Configure settings in `config.lua`
-- Restart your server
+The SQL file creates the `dark_farming` table used to persist planted crops across restarts.
 
----
+It also inserts the default usable items for:
 
-## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢Ãƒâ€šÃ‚Â Credits & Inspiration
+- watering cans
+- fertilizer
+- soil
+- hoe
+- wet buds
+- dried buds
+- packaged bags
 
-Original concept inspired by 'prp_farming' - completely rebuilt with enhanced features and optimizations.
+You still need to add your own crop seed and harvest items if they are not already present in your inventory database.
+
+## Localization
+
+Included languages:
+
+- English
+- German
+- French
+- Polish
+- Romanian
+
+Language files are located in `languages/` and selected through `Config.defaultlang`.
 
 
+## Credits
+
+Original concept inspired by `prp_farming`, rebuilt and extended for this resource.
