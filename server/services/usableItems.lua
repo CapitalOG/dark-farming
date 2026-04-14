@@ -173,7 +173,7 @@ CreateThread(function()
 
             -- Max Plants Check
             DBG:Info("Checking max plants limit...")
-            local playerPlants = MySQL.query.await('SELECT * FROM `bcc_farming` WHERE `plant_owner` = ?', { character.charIdentifier })
+            local playerPlants = MySQL.query.await('SELECT * FROM `dark_farming` WHERE `plant_owner` = ?', { character.charIdentifier })
             if not playerPlants or #playerPlants >= Config.plantSetup.maxPlants then
                 DBG:Error("Player reached max plants limit")
                 NotifyClient(src, _U('maxPlantsReached'), "error", 4000)
@@ -223,7 +223,7 @@ CreateThread(function()
 
             -- Trigger Planting Event
             DBG:Info("Triggering planting event...")
-            TriggerClientEvent('bcc-farming:PlantingCrop', src, plantCfg, bestFertilizer, housePayload)
+            TriggerClientEvent('dark-farming:PlantingCrop', src, plantCfg, bestFertilizer, housePayload)
         end, GetCurrentResourceName())
     end
 end)
@@ -243,13 +243,13 @@ CreateThread(function()
             end
 
             exports.vorp_inventory:closeInventory(src)
-            TriggerClientEvent('bcc-farming:StartDrying', src, dryItem)
+            TriggerClientEvent('dark-farming:StartDrying', src, dryItem)
         end, GetCurrentResourceName())
     end
 end)
 
 -- Server callback: finalise drying after client animation completes
-Core.Callback.Register('bcc-farming:CompleteDrying', function(source, cb, wetItem, driedItem)
+Core.Callback.Register('dark-farming:CompleteDrying', function(source, cb, wetItem, driedItem)
     local src = source
     local user = Core.getUser(src)
     if not user then return cb(false) end
@@ -293,13 +293,13 @@ CreateThread(function()
             end
 
             exports.vorp_inventory:closeInventory(src)
-            TriggerClientEvent('bcc-farming:StartPackaging', src, pkgItem, budCount)
+            TriggerClientEvent('dark-farming:StartPackaging', src, pkgItem, budCount)
         end, GetCurrentResourceName())
     end
 end)
 
 -- Server callback: finalise packaging after player chooses bag type
-Core.Callback.Register('bcc-farming:CompletePackaging', function(source, cb, budItem, bagType, pkgLabel)
+Core.Callback.Register('dark-farming:CompletePackaging', function(source, cb, budItem, bagType, pkgLabel)
     local src = source
     local user = Core.getUser(src)
     if not user then return cb(false) end

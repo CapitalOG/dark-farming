@@ -167,7 +167,7 @@ local function ScenarioInPlace(hash, time)
     FreezeEntityPosition(playerPed, false)
 end
 
-RegisterNetEvent('bcc-farming:PlantPlanted', function(plantId, plantData, plantCoords, timeLeft, watered, source)
+RegisterNetEvent('dark-farming:PlantPlanted', function(plantId, plantData, plantCoords, timeLeft, watered, source)
     DBG:Info('Starting PlantPlanted event...')
     -- Validate inputs
     if not plantId or not plantData or not plantCoords or timeLeft == nil or watered == nil then
@@ -275,14 +275,14 @@ RegisterNetEvent('bcc-farming:PlantPlanted', function(plantId, plantData, plantC
                         DBG:Info('Harvest prompt completed...')
                         -- Play harvest animation first, then trigger server logic so notifications appear after the anim
                         PlayAnim('mech_pickup@plant@berries', 'base', 2500, false, true)
-                        Core.Callback.TriggerAwait('bcc-farming:HarvestCheck', plantId, plantData, false)
+                        Core.Callback.TriggerAwait('dark-farming:HarvestCheck', plantId, plantData, false)
                     end
                 end
 
                 -- Handle destroy prompt for watered plants
                 if Citizen.InvokeNative(0xE0F65F0640EF0617, DestroyPromptHG) then -- UiPromptHasHoldModeCompleted
                     DBG:Info('Destroy prompt completed...')
-                    local canDestroy = Core.Callback.TriggerAwait('bcc-farming:HarvestCheck', plantId, plantData, true)
+                    local canDestroy = Core.Callback.TriggerAwait('dark-farming:HarvestCheck', plantId, plantData, true)
                     if canDestroy then
                         PlayAnim('amb_camp@world_camp_fire@stomp@male_a@wip_base', 'wip_base', 8000, false, true)
                     end
@@ -293,13 +293,13 @@ RegisterNetEvent('bcc-farming:PlantPlanted', function(plantId, plantData, plantC
             if tostring(Crops[plantId].watered) == 'false' then
                 local isRaining = GetRainLevel()
                 if isRaining > 0 then
-                    TriggerServerEvent('bcc-farming:UpdatePlantWateredStatus', plantId)
+                    TriggerServerEvent('dark-farming:UpdatePlantWateredStatus', plantId)
                 else
                     UiPromptSetActiveGroupThisFrame(WaterGroup, CreateVarString(10, 'LITERAL_STRING', _U('waterPlant')), 1, 0, 0, 0)
 
                     if Citizen.InvokeNative(0xE0F65F0640EF0617, WaterPrompt) then -- UiPromptHasHoldModeCompleted
                         DBG:Info('Water prompt completed...')
-                        local canWater = Core.Callback.TriggerAwait('bcc-farming:ManagePlantWateredStatus', plantId)
+                        local canWater = Core.Callback.TriggerAwait('dark-farming:ManagePlantWateredStatus', plantId)
                         if canWater then
                             ScenarioInPlace('WORLD_HUMAN_BUCKET_POUR_LOW', 5000)
                         else
@@ -309,7 +309,7 @@ RegisterNetEvent('bcc-farming:PlantPlanted', function(plantId, plantData, plantC
 
                     if Citizen.InvokeNative(0xE0F65F0640EF0617, DestroyPromptWG) then -- UiPromptHasHoldModeCompleted
                         DBG:Info('Destroy prompt completed...')
-                        local canDestroy = Core.Callback.TriggerAwait('bcc-farming:HarvestCheck', plantId, plantData, true)
+                        local canDestroy = Core.Callback.TriggerAwait('dark-farming:HarvestCheck', plantId, plantData, true)
                         if canDestroy then
                             PlayAnim('amb_camp@world_camp_fire@stomp@male_a@wip_base', 'wip_base', 8000, false, true)
                         end
@@ -333,7 +333,7 @@ RegisterNetEvent('bcc-farming:PlantPlanted', function(plantId, plantData, plantC
 end)
 
 -- Remove a plant from the client
-RegisterNetEvent('bcc-farming:RemovePlantClient', function(plantId)
+RegisterNetEvent('dark-farming:RemovePlantClient', function(plantId)
     -- Validate input
     if not plantId then
         DBG:Error('Invalid plantId received for RemovePlantClient')
@@ -352,7 +352,7 @@ RegisterNetEvent('bcc-farming:RemovePlantClient', function(plantId)
 end)
 
 -- Update plant watered status on client
-RegisterNetEvent('bcc-farming:UpdateClientPlantWateredStatus', function (plantId)
+RegisterNetEvent('dark-farming:UpdateClientPlantWateredStatus', function (plantId)
     -- Validate input
     if not plantId then
         DBG:Error('Invalid plantId received for UpdateClientPlantWateredStatus')

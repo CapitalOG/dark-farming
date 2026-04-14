@@ -1,4 +1,4 @@
-# BCC Farming 🌱
+# Dark Farming ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â±
 
 *Advanced Agricultural System for RedM*
 
@@ -6,9 +6,9 @@
 
 ---
 
-## 🌟 Key Features
+## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€¦Ã‚Â¸ Key Features
 
-### **🌿 Core Farming System**
+### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã¢â‚¬â„¢Ãƒâ€šÃ‚Â¿ Core Farming System**
 
 - **Unlimited Custom Crops**: Create any number of plant types with unique growth cycles and yields
 - **Resource Management**:
@@ -17,7 +17,7 @@
   - Watering mechanics with bucket depletion (auto-replaced with empty buckets)
 - **Ownership System**: Configurable plant locking (planter-only or public access)
 
-### **🔧 Advanced Configuration**
+### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂÃƒâ€šÃ‚Â§ Advanced Configuration**
 
 - **Job Restrictions**: Lock plants to specific professions (farmer, outlaw, etc.)
 - **Zone Control**: Town proximity restrictions with adjustable radii
@@ -25,13 +25,13 @@
 - **Economic Balancing**: Configure required seed and soil amounts as well as harvest yields
 - **Player Limits**: Set maximum plants per player
 
-### **💻 Technical Implementation**
+### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã¢â€žÂ¢Ãƒâ€šÃ‚Â» Technical Implementation**
 
 - **Database Backed**: Persistent storage across server restarts
 - **Localization Ready**: Full multilingual support
 - **Update Notifications**: Built-in version checker
 
-### **🎮 Gameplay Enhancements**
+### **ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸Ãƒâ€¦Ã‚Â½Ãƒâ€šÃ‚Â® Gameplay Enhancements**
 
 - **Interactive UI**: Intuitive prompts for all farming actions
 - **Debug System**: Color-coded logging for easy troubleshooting
@@ -40,7 +40,7 @@
 
 ---
 
-## 📋 Requirements
+## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œÃƒÂ¢Ã¢â€šÂ¬Ã‚Â¹ Requirements
 
 ### **Core Dependencies**
 
@@ -55,7 +55,7 @@
 
 ---
 
-## 🛠 Installation Guide
+## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â€šÂ¬Ã‚ÂºÃƒâ€šÃ‚Â  Installation Guide
 
 ### **1. Prepare Your Server**
 
@@ -67,9 +67,9 @@ ensure vorp_character
 ensure bcc-utils
 ```
 
-### **2. Install BCC Farming**
+### **2. Install Dark Farming**
 
-1. Place the `bcc-farming` folder in your `resources` directory
+1. Place the `dark-farming` folder in your `resources` directory
 2. Add to your `server.cfg`:
 
    ```cfg
@@ -78,7 +78,7 @@ ensure bcc-utils
 
 ### **3. Database Setup**
 
-Import the included SQL file: `bcc-farming.sql`
+Import the included SQL file: `dark-farming.sql`
 
 ### **4. Asset Installation**
 
@@ -94,13 +94,8 @@ Copy images to your inventory system:
 
 ---
 
-## 🙏 Credits & Inspiration
+## ÃƒÆ’Ã‚Â°Ãƒâ€¦Ã‚Â¸ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢Ãƒâ€šÃ‚Â Credits & Inspiration
 
 Original concept inspired by 'prp_farming' - completely rebuilt with enhanced features and optimizations.
 
-**Maintained by:** [BryceCanyonCounty](https://github.com/BryceCanyonCounty)
 
----
-*For support, issues, or contributions, visit our [Discord](https://discord.gg/bNDpwruqwX) or [GitHub repository](https://github.com/BryceCanyonCounty/bcc-farming)*
-
----

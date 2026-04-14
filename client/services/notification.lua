@@ -34,6 +34,6 @@ function Notify(message, typeOrDuration, maybeDuration)
     end
 end
 
-BccUtils.RPC:Register("bcc-farming:NotifyClient", function(data)
+BccUtils.RPC:Register("dark-farming:NotifyClient", function(data)
     Notify(data.message, data.type, data.duration)
 end)

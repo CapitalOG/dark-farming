@@ -1,7 +1,7 @@
 --RegisterNetEvent('vorp:SelectedCharacter', function()
 CreateThread(function()
-    TriggerServerEvent('bcc-farming:NewClientConnected')
-    TriggerEvent('bcc-farming:ShowSmellingPlants')
+    TriggerServerEvent('dark-farming:NewClientConnected')
+    TriggerEvent('dark-farming:ShowSmellingPlants')
 end)
 --end)
 
@@ -67,7 +67,7 @@ function PlayAnim(animDict, animName, time, raking, loopUntilTimeOver)
     ClearPedTasks(playerPed)
 end
 
-AddEventHandler('bcc-farming:ShowSmellingPlants', function()
+AddEventHandler('dark-farming:ShowSmellingPlants', function()
     CreateThread(function()
         local blips = {}
         local lastNotificationTime = 0
@@ -94,7 +94,7 @@ AddEventHandler('bcc-farming:ShowSmellingPlants', function()
             end
 
             -- Get smelling plants from server
-            local smellingPlants = Core.Callback.TriggerAwait('bcc-farming:DetectSmellingPlants', playerCoords)
+            local smellingPlants = Core.Callback.TriggerAwait('dark-farming:DetectSmellingPlants', playerCoords)
 
             -- Validate response
             if not smellingPlants then

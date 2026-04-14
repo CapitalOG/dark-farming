@@ -59,7 +59,7 @@ local function StartPrompts()
     return true
 end
 
-RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer, houseLocks)
+RegisterNetEvent('dark-farming:PlantingCrop', function(plantData, bestFertilizer, houseLocks)
     DBG:Info('PlantingCrop event triggered')
     -- Validate inputs
     if not plantData then
@@ -154,13 +154,13 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
 
     if lockRequired and not withinLock and not withinHouseRadius then
         Notify(_U('mustUseLockedSpot'), "error", 4000)
-        TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+        TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
         return
     end
 
     if Config.plantSetup.requireHouseOwnership and not withinHouseRadius and not withinLock then
         Notify(_U('needHousePlot'), "error", 4000)
-        TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+        TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
         return
     end
 
@@ -169,7 +169,7 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
         local entity = GetClosestObjectOfType(playerCoords.x, playerCoords.y, playerCoords.z, plantData.plantingDistance, joaat(plantCfg.plantProp), false, false, false)
         if entity ~= 0 then
             Notify(_U('tooCloseToAnotherPlant'), "error", 4000)
-            TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+            TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
             return
         end
     end
@@ -177,7 +177,7 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
     -- Return if already planting
     if PlantingProcess then
         Notify(_U('FinishPlantingProcessFirst'), "error", 4000)
-        TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+        TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
         return
     end
 
@@ -192,14 +192,14 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
     if IsEntityDead(playerPed) then
         Notify(_U('failed'), "error", 4000)
         PlantingProcess = false
-        TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+        TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
         return
     end
 
     -- Tool usage
     if plantData.plantingToolRequired then
         DBG:Info('Sending tool usage data')
-        TriggerServerEvent('bcc-farming:PlantToolUsage', plantData)
+        TriggerServerEvent('dark-farming:PlantToolUsage', plantData)
     end
 
     Notify(_U('plantingDone'), "success", 4000)
@@ -208,7 +208,7 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
     if not PromptsStarted and not StartPrompts() then
         DBG:Error('Failed to start prompts')
         PlantingProcess = false
-        TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+        TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
         return
     end
 
@@ -227,7 +227,7 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
                 DBG:Info('Yes prompt completed - using fertilizer')
                 if bestFertilizer then
                     plantData.timeToGrow = math.floor(plantData.timeToGrow - (bestFertilizer.fertTimeReduction * plantData.timeToGrow))
-                    TriggerServerEvent('bcc-farming:RemoveFertilizer', bestFertilizer.fertName)
+                    TriggerServerEvent('dark-farming:RemoveFertilizer', bestFertilizer.fertName)
                 else
                     Notify(_U('noFert'), "error", 4000)
                 end
@@ -243,14 +243,14 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
             if IsEntityDead(playerPed) then
                 Notify(_U('failed'), "error", 4000)
                 PlantingProcess = false
-                TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+                TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
                 return
             end
         else
             -- Player moved too far away
             Notify(_U('movedTooFar'), "error", 4000)
             PlantingProcess = false
-            TriggerServerEvent('bcc-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
+            TriggerServerEvent('dark-farming:ReturnItems', plantData.seedName, plantData.seedAmount, plantData.soilRequired, plantData.soilName, plantData.soilAmount)
             return
         end
         Wait(sleep)
@@ -268,7 +268,7 @@ RegisterNetEvent('bcc-farming:PlantingCrop', function(plantData, bestFertilizer,
         if placementHeading then
             plantCoords.w = placementHeading
         end
-        TriggerServerEvent('bcc-farming:AddPlant', plantData, plantCoords)
+        TriggerServerEvent('dark-farming:AddPlant', plantData, plantCoords)
     end
 
     PlantingProcess = false

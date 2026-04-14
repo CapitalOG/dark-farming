@@ -1,4 +1,4 @@
-CREATE TABLE IF NOT EXISTS `bcc_farming` (
+CREATE TABLE IF NOT EXISTS `dark_farming` (
     `plant_id` INT(40) NOT NULL AUTO_INCREMENT,
     `plant_coords` LONGTEXT NOT NULL,
     `plant_type` VARCHAR(40) NOT NULL,

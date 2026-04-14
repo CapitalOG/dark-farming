@@ -1,9 +1,9 @@
 local isDrying    = false
 local isPackaging = false
 
--- ─── Drying ──────────────────────────────────────────────────────────────────
+-- Drying
 
-RegisterNetEvent('bcc-farming:StartDrying', function(dryItem)
+RegisterNetEvent('dark-farming:StartDrying', function(dryItem)
     if isDrying then
         Core.NotifyRightTip('You are already drying something.', 4000)
         return
@@ -15,7 +15,7 @@ RegisterNetEvent('bcc-farming:StartDrying', function(dryItem)
     -- Play an idle animation for the duration of the drying process
     PlayAnim('amb_rest@world_rest_male_a@wip_base', 'wip_base', dryingTime, false, true)
 
-    local success = Core.Callback.TriggerAwait('bcc-farming:CompleteDrying', dryItem.wetItem, dryItem.driedItem)
+    local success = Core.Callback.TriggerAwait('dark-farming:CompleteDrying', dryItem.wetItem, dryItem.driedItem)
 
     isDrying = false
 
@@ -24,9 +24,9 @@ RegisterNetEvent('bcc-farming:StartDrying', function(dryItem)
     end
 end)
 
--- ─── Packaging ───────────────────────────────────────────────────────────────
+-- Packaging
 
-RegisterNetEvent('bcc-farming:StartPackaging', function(pkgItem, budCount)
+RegisterNetEvent('dark-farming:StartPackaging', function(pkgItem, budCount)
     if isPackaging then
         Core.NotifyRightTip('You are already packaging something.', 4000)
         return
@@ -103,5 +103,5 @@ RegisterNetEvent('bcc-farming:StartPackaging', function(pkgItem, budCount)
     -- Play a quick packaging animation
     PlayAnim('mech_pickup@plant@berries', 'base', 2000, false, false)
 
-    Core.Callback.TriggerAwait('bcc-farming:CompletePackaging', pkgItem.budItem, chosen, pkgItem.label)
+    Core.Callback.TriggerAwait('dark-farming:CompletePackaging', pkgItem.budItem, chosen, pkgItem.label)
 end)

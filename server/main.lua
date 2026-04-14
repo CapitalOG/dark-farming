@@ -44,7 +44,7 @@ end
 
 --- @param plantData table
 --- @param plantCoords vector3
-RegisterNetEvent('bcc-farming:AddPlant', function(plantData, plantCoords)
+RegisterNetEvent('dark-farming:AddPlant', function(plantData, plantCoords)
     local src = source
     local user = Core.getUser(src)
 
@@ -260,7 +260,7 @@ RegisterNetEvent('bcc-farming:AddPlant', function(plantData, plantCoords)
     end
 
     -- Insert plant into database
-    local plantId = MySQL.insert.await('INSERT INTO `bcc_farming` (plant_coords, plant_type, plant_watered, time_left, plant_owner) VALUES (?, ?, ?, ?, ?)',
+    local plantId = MySQL.insert.await('INSERT INTO `dark_farming` (plant_coords, plant_type, plant_watered, time_left, plant_owner) VALUES (?, ?, ?, ?, ?)',
     { json.encode(finalCoords), plantData.seedName, 'false', plantData.timeToGrow, character.charIdentifier })
 
     if not plantId then
@@ -293,11 +293,11 @@ RegisterNetEvent('bcc-farming:AddPlant', function(plantData, plantCoords)
 
     -- Trigger client event
     local target = Config.plantSetup.lockedToPlanter and src or -1
-    TriggerClientEvent('bcc-farming:PlantPlanted', target, plantId, plantData, finalCoords, plantData.timeToGrow, false, src)
+    TriggerClientEvent('dark-farming:PlantPlanted', target, plantId, plantData, finalCoords, plantData.timeToGrow, false, src)
 end)
 
 --- @param plantData table
-RegisterNetEvent('bcc-farming:PlantToolUsage',function (plantData)
+RegisterNetEvent('dark-farming:PlantToolUsage',function (plantData)
     local src = source
     local user = Core.getUser(src)
 
@@ -346,7 +346,7 @@ RegisterNetEvent('bcc-farming:PlantToolUsage',function (plantData)
     end
 end)
 
-RegisterNetEvent('bcc-farming:NewClientConnected', function()
+RegisterNetEvent('dark-farming:NewClientConnected', function()
     local src = source
     local user = Core.getUser(src)
 
@@ -378,14 +378,14 @@ RegisterNetEvent('bcc-farming:NewClientConnected', function()
 
         -- If player owns plant add to their max plants count
         if currentPlants.plant_owner == charid then
-            TriggerClientEvent('bcc-farming:MaxPlantsAmount', src, 1)
+            TriggerClientEvent('dark-farming:MaxPlantsAmount', src, 1)
         end
 
         -- Get plant configuration and send to client
         for _, plantCfg in pairs(Plants) do
             if currentPlants.plant_type == plantCfg.seedName then
                 local plantCoords = json.decode(currentPlants.plant_coords)
-                TriggerClientEvent('bcc-farming:PlantPlanted', src, currentPlants.plant_id, plantCfg, plantCoords, currentPlants.time_left, currentPlants.plant_watered, src)
+                TriggerClientEvent('dark-farming:PlantPlanted', src, currentPlants.plant_id, plantCfg, plantCoords, currentPlants.time_left, currentPlants.plant_watered, src)
                 break
             end
         end
@@ -394,7 +394,7 @@ RegisterNetEvent('bcc-farming:NewClientConnected', function()
 end)
 
 --- @param plantId number
-Core.Callback.Register('bcc-farming:ManagePlantWateredStatus', function(source, cb, plantId)
+Core.Callback.Register('dark-farming:ManagePlantWateredStatus', function(source, cb, plantId)
     local src = source
     local user = Core.getUser(src)
 
@@ -443,14 +443,14 @@ Core.Callback.Register('bcc-farming:ManagePlantWateredStatus', function(source, 
             end
 
             -- Update plant watered status in database
-            local successUpdate = MySQL.update.await('UPDATE `bcc_farming` SET `plant_watered` = ? WHERE `plant_id` = ?', { 'true', plantId })
+            local successUpdate = MySQL.update.await('UPDATE `dark_farming` SET `plant_watered` = ? WHERE `plant_id` = ?', { 'true', plantId })
 
             if not successUpdate then
                 DBG:Error('Failed to update plant watered status in database for plantId: ' .. tostring(plantId))
                 return cb(false)
             end
 
-            TriggerClientEvent('bcc-farming:UpdateClientPlantWateredStatus', -1, plantId)
+            TriggerClientEvent('dark-farming:UpdateClientPlantWateredStatus', -1, plantId)
             return cb(true)
         end
     end
@@ -460,7 +460,7 @@ Core.Callback.Register('bcc-farming:ManagePlantWateredStatus', function(source, 
 end)
 
 --- @param plantId number
-RegisterNetEvent('bcc-farming:UpdatePlantWateredStatus', function(plantId)
+RegisterNetEvent('dark-farming:UpdatePlantWateredStatus', function(plantId)
     local src = source
     local user = Core.getUser(src)
 
@@ -477,7 +477,7 @@ RegisterNetEvent('bcc-farming:UpdatePlantWateredStatus', function(plantId)
     end
 
     -- Update plant watered status in database
-    local result = MySQL.update.await('UPDATE `bcc_farming` SET `plant_watered` = ? WHERE `plant_id` = ?', { 'true', plantId })
+    local result = MySQL.update.await('UPDATE `dark_farming` SET `plant_watered` = ? WHERE `plant_id` = ?', { 'true', plantId })
 
     if not result then
         DBG:Error('Failed to update plant watered status in database for plantId: ' .. tostring(plantId))
@@ -485,13 +485,13 @@ RegisterNetEvent('bcc-farming:UpdatePlantWateredStatus', function(plantId)
     end
 
     DBG:Success('Successfully updated watered status for plant ID: ' .. tostring(plantId))
-    TriggerClientEvent('bcc-farming:UpdateClientPlantWateredStatus', -1, plantId)
+    TriggerClientEvent('dark-farming:UpdateClientPlantWateredStatus', -1, plantId)
 end)
 
 --- @param plantId number
 --- @param plantData table
 --- @param destroy boolean
-Core.Callback.Register('bcc-farming:HarvestCheck', function(source, cb, plantId, plantData, destroy)
+Core.Callback.Register('dark-farming:HarvestCheck', function(source, cb, plantId, plantData, destroy)
     local src = source
     local user = Core.getUser(src)
 
@@ -545,7 +545,7 @@ Core.Callback.Register('bcc-farming:HarvestCheck', function(source, cb, plantId,
     end
 
     -- Update plant status in database and remove plant from clients
-    local result = MySQL.query.await('DELETE FROM `bcc_farming` WHERE `plant_id` = ?', { plantId })
+    local result = MySQL.query.await('DELETE FROM `dark_farming` WHERE `plant_id` = ?', { plantId })
 
     if not result or (result and result.affectedRows and result.affectedRows == 0) then
         DBG:Error('Failed to delete plant with ID: ' .. tostring(plantId) .. ' from database')
@@ -554,14 +554,14 @@ Core.Callback.Register('bcc-farming:HarvestCheck', function(source, cb, plantId,
 
     DBG:Success('Successfully deleted plant with ID: ' .. tostring(plantId) .. ' from database')
 
-    TriggerClientEvent('bcc-farming:MaxPlantsAmount', src, -1)
-    TriggerClientEvent('bcc-farming:RemovePlantClient', -1, plantId)
+    TriggerClientEvent('dark-farming:MaxPlantsAmount', src, -1)
+    TriggerClientEvent('dark-farming:RemovePlantClient', -1, plantId)
 
     cb(true)
 end)
 
 --- @param fertilizerName string
-RegisterNetEvent('bcc-farming:RemoveFertilizer', function(fertilizerName)
+RegisterNetEvent('dark-farming:RemoveFertilizer', function(fertilizerName)
     local src = source
     local user = Core.getUser(src)
 
@@ -599,7 +599,7 @@ end)
 --- @param soilRequired boolean
 --- @param soilName string
 --- @param soilAmount number
-RegisterNetEvent('bcc-farming:ReturnItems', function(seedName, seedAmount, soilRequired, soilName, soilAmount)
+RegisterNetEvent('dark-farming:ReturnItems', function(seedName, seedAmount, soilRequired, soilName, soilAmount)
     local src = source
     local user = Core.getUser(src)
 
@@ -655,7 +655,7 @@ CreateThread(function()
         local timeLeft
 
         -- Fetch all plants from the database
-        local allPlants = MySQL.query.await('SELECT * FROM `bcc_farming`')
+        local allPlants = MySQL.query.await('SELECT * FROM `dark_farming`')
         if not allPlants then
             DBG:Warning('Failed to fetch plants from database. Will try again.')
             Wait(5000)
@@ -683,7 +683,7 @@ CreateThread(function()
                     --DBG:Info('Updating plant ID: ' .. tostring(plant.plant_id) .. ', time left: ' .. tostring(newTime))
 
                     -- Update plant time in database
-                    local success = MySQL.update.await('UPDATE `bcc_farming` SET `time_left` = ? WHERE `plant_id` = ?',
+                    local success = MySQL.update.await('UPDATE `dark_farming` SET `time_left` = ? WHERE `plant_id` = ?',
                         { newTime, plant.plant_id })
 
                     if not success then
@@ -700,7 +700,7 @@ CreateThread(function()
 end)
 
 --- @param playerCoords vector3
-Core.Callback.Register('bcc-farming:DetectSmellingPlants', function(source, cb, playerCoords)
+Core.Callback.Register('dark-farming:DetectSmellingPlants', function(source, cb, playerCoords)
     local src = source
     local user = Core.getUser(src)
 
