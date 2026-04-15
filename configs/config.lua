@@ -160,7 +160,7 @@ Config = {
         items = {
             { wetItem = 'wet_buds',        driedItem = 'buds',        label = 'Weed Buds' },
             { wetItem = 'wet_purple_buds', driedItem = 'purple_buds', label = 'Purple Buds' },
-            { wetItem = 'wet_kalka_buds',  driedItem = 'kalka_buds',  label = 'Kalka Buds' },
+            { wetItem = 'wet_kush_buds',   driedItem = 'kush_buds',   label = 'Kush Buds' },
         }
     },
     -----------------------------------------------------
@@ -174,7 +174,7 @@ Config = {
         items = {
             { budItem = 'buds',        singleBag = 'weed_bag',        bulkBag = 'weed_bag_bulk',        label = 'Weed' },
             { budItem = 'purple_buds', singleBag = 'purple_weed_bag', bulkBag = 'purple_weed_bag_bulk', label = 'Purple Weed' },
-            { budItem = 'kalka_buds',  singleBag = 'kalka_weed_bag',  bulkBag = 'kalka_weed_bag_bulk',  label = 'Kalka Weed' },
+            { budItem = 'kush_buds',   singleBag = 'kush_weed_bag',   bulkBag = 'kush_weed_bag_bulk',   label = 'Kush Weed' },
         }
     },
 }

@@ -787,8 +787,8 @@ Plants = {
         plantingTool = 'hoe',              -- Item name for the planting tool (Durability starts at 100)
         plantingToolUsage = 2,             -- Durability value removed from the tool when planting a seed
         plantingDistance = 1.5,            -- Distance between plants
-        plantName = 'Kalka Weed',          -- Name of the plant
-        seedName = 'kalka_weed_seed',      -- Item name for the seed
+        plantName = 'Kush Weed',           -- Name of the plant
+        seedName = 'kush_weed_seed',       -- Item name for the seed
         seedAmount = 1,                    -- Amount of seeds required to plant
         plantProp = 'prop_weed_05',        -- Prop for the plant to be spawned
         soilRequired = false,              -- If true, the seed will require soil to be planted
@@ -801,13 +801,13 @@ Plants = {
         blips = {
             enabled = true,                -- Set true to Enable Blips for Plants (Only shows to planter)
             sprite = 'blip_mp_spawnpoint', -- Default: 'blip_mp_spawnpoint'
-            name = 'Kalka Weed',           -- Name of Blip on Map
+            name = 'Kush Weed',            -- Name of Blip on Map
             color = 'WHITE'                -- Blip Colors Shown in 'config.lua'
         },
         rewards = {
             {
-                itemName = 'wet_kalka_buds',
-                itemLabel = 'Wet Kalka Buds',
+                itemName = 'wet_kush_buds',
+                itemLabel = 'Wet Kush Buds',
                 amount = 1
             }
         },

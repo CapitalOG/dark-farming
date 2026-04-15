@@ -84,7 +84,7 @@
       <bsRadius value="1.28051" />
       <hdTextureDist value="133238,04" />
       <name>prop_weed_05</name>
-      <textureDictionary>prop_weed_kalka</textureDictionary>
+      <textureDictionary>prop_weed_kush</textureDictionary>
       <clipDictionary />
       <drawableDictionary />
       <physicsDictionary />
@@ -102,7 +102,7 @@
       <bsRadius value="0.884686" />
       <hdTextureDist value="920138,44" />
       <name>prop_weed_06</name>
-      <textureDictionary>prop_weed_kalka</textureDictionary>
+      <textureDictionary>prop_weed_kush</textureDictionary>
       <clipDictionary />
       <drawableDictionary />
       <physicsDictionary />

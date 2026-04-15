@@ -19,6 +19,38 @@ CREATE TABLE IF NOT EXISTS `items` (
     `desc` LONGTEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+-- Legacy migration: Kalka -> Kush
+UPDATE `dark_farming`
+SET `plant_type` = 'kush_weed_seed'
+WHERE `plant_type` = 'kalka_weed_seed';
+
+UPDATE `items` i
+LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'wet_kush_buds') n ON n.`item` = 'wet_kush_buds'
+SET i.`item` = 'wet_kush_buds'
+WHERE i.`item` = 'wet_kalka_buds' AND n.`item` IS NULL;
+
+UPDATE `items` i
+LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_buds') n ON n.`item` = 'kush_buds'
+SET i.`item` = 'kush_buds'
+WHERE i.`item` = 'kalka_buds' AND n.`item` IS NULL;
+
+UPDATE `items` i
+LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_weed_bag') n ON n.`item` = 'kush_weed_bag'
+SET i.`item` = 'kush_weed_bag'
+WHERE i.`item` = 'kalka_weed_bag' AND n.`item` IS NULL;
+
+UPDATE `items` i
+LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_weed_bag_bulk') n ON n.`item` = 'kush_weed_bag_bulk'
+SET i.`item` = 'kush_weed_bag_bulk'
+WHERE i.`item` = 'kalka_weed_bag_bulk' AND n.`item` IS NULL;
+
+DELETE FROM `items` WHERE `item` IN (
+    'wet_kalka_buds',
+    'kalka_buds',
+    'kalka_weed_bag',
+    'kalka_weed_bag_bulk'
+);
+
 INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`, `desc`)
 VALUES
     ('wateringcan', 'Water Jug', 10, 1, 'item_standard', 1, 'A bucket of clean water.'),
@@ -34,19 +66,19 @@ VALUES
     -- Wet buds (harvested directly from weed plants)
     ('wet_buds',        'Wet Buds',        100, 1, 'item_standard', 1, 'Freshly harvested weed buds. Needs to be dried.'),
     ('wet_purple_buds', 'Wet Purple Buds', 100, 1, 'item_standard', 1, 'Freshly harvested purple weed buds. Needs to be dried.'),
-    ('wet_kalka_buds',  'Wet Kalka Buds',  100, 1, 'item_standard', 1, 'Freshly harvested kalka weed buds. Needs to be dried.'),
+    ('wet_kush_buds',   'Wet Kush Buds',   100, 1, 'item_standard', 1, 'Freshly harvested kush weed buds. Needs to be dried.'),
     -- Dried buds (after drying process)
     ('buds',        'Buds',        100, 1, 'item_standard', 1, 'Dried weed buds ready to be packaged.'),
     ('purple_buds', 'Purple Buds', 100, 1, 'item_standard', 1, 'Dried purple weed buds ready to be packaged.'),
-    ('kalka_buds',  'Kalka Buds',  100, 1, 'item_standard', 1, 'Dried kalka weed buds ready to be packaged.'),
+    ('kush_buds',   'Kush Buds',   100, 1, 'item_standard', 1, 'Dried kush weed buds ready to be packaged.'),
     -- Packaged bags (single)
     ('weed_bag',        'Weed Bag',        100, 1, 'item_standard', 0, 'A single-serving bag of weed.'),
     ('purple_weed_bag', 'Purple Weed Bag', 100, 1, 'item_standard', 0, 'A single-serving bag of purple weed.'),
-    ('kalka_weed_bag',  'Kalka Weed Bag',  100, 1, 'item_standard', 0, 'A single-serving bag of kalka weed.'),
+    ('kush_weed_bag',   'Kush Weed Bag',   100, 1, 'item_standard', 0, 'A single-serving bag of kush weed.'),
     -- Packaged bags (bulk x10)
-    ('weed_bag_bulk',        'Weed Bulk Bag',        100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of weed.'),
-    ('purple_weed_bag_bulk', 'Purple Weed Bulk Bag', 100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of purple weed.'),
-    ('kalka_weed_bag_bulk',  'Kalka Weed Bulk Bag',  100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of kalka weed.')
+    ('weed_bag_bulk',        'Weed Package',        100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of weed.'),
+    ('purple_weed_bag_bulk', 'Purple Package', 100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of purple weed.'),
+    ('kush_weed_bag_bulk',   'Kush Package',   100, 1, 'item_standard', 0, 'A bulk bag containing 10 servings of kush weed.')
 ON DUPLICATE KEY UPDATE
     `item` = VALUES(`item`),
     `label` = VALUES(`label`),
