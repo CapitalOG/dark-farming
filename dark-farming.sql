@@ -19,37 +19,6 @@ CREATE TABLE IF NOT EXISTS `items` (
     `desc` LONGTEXT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
--- Legacy migration: Kalka -> Kush
-UPDATE `dark_farming`
-SET `plant_type` = 'kush_weed_seed'
-WHERE `plant_type` = 'kalka_weed_seed';
-
-UPDATE `items` i
-LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'wet_kush_buds') n ON n.`item` = 'wet_kush_buds'
-SET i.`item` = 'wet_kush_buds'
-WHERE i.`item` = 'wet_kalka_buds' AND n.`item` IS NULL;
-
-UPDATE `items` i
-LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_buds') n ON n.`item` = 'kush_buds'
-SET i.`item` = 'kush_buds'
-WHERE i.`item` = 'kalka_buds' AND n.`item` IS NULL;
-
-UPDATE `items` i
-LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_weed_bag') n ON n.`item` = 'kush_weed_bag'
-SET i.`item` = 'kush_weed_bag'
-WHERE i.`item` = 'kalka_weed_bag' AND n.`item` IS NULL;
-
-UPDATE `items` i
-LEFT JOIN (SELECT `item` FROM `items` WHERE `item` = 'kush_weed_bag_bulk') n ON n.`item` = 'kush_weed_bag_bulk'
-SET i.`item` = 'kush_weed_bag_bulk'
-WHERE i.`item` = 'kalka_weed_bag_bulk' AND n.`item` IS NULL;
-
-DELETE FROM `items` WHERE `item` IN (
-    'wet_kalka_buds',
-    'kalka_buds',
-    'kalka_weed_bag',
-    'kalka_weed_bag_bulk'
-);
 
 INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`, `desc`)
 VALUES
