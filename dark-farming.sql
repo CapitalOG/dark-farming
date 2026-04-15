@@ -9,6 +9,16 @@ CREATE TABLE IF NOT EXISTS `dark_farming` (
     PRIMARY KEY (`plant_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `items` (
+    `item` VARCHAR(40) PRIMARY KEY,
+    `label` VARCHAR(255) NOT NULL,
+    `limit` INT NOT NULL,
+    `can_remove` INT NOT NULL DEFAULT 1,
+    `type` VARCHAR(40) NOT NULL,
+    `usable` INT NOT NULL DEFAULT 0,
+    `desc` LONGTEXT
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
 INSERT INTO `items`(`item`, `label`, `limit`, `can_remove`, `type`, `usable`, `desc`)
 VALUES
     ('wateringcan', 'Water Jug', 10, 1, 'item_standard', 1, 'A bucket of clean water.'),
