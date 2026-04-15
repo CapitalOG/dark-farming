@@ -29,9 +29,6 @@ VALUES
     ('fertilizer3', 'Fertilizer Grade A', 10, 1, 'item_standard', 1, 'High grade fertilizer.'),
     ('soil', 'Soil', 10, 1, 'item_standard', 1, 'High grade soil.'),
     ('hoe', 'Garden Hoe', 10, 1, 'item_standard', 1, 'A gardening tool with a thin metal blade.'),
-    -- Seed items used by this resource
-    ('Blueberry_Seed', 'Blueberry Seed', 100, 1, 'item_standard', 1, 'Seed used to plant blueberry crops.'),
-    ('coca_seed', 'Coca Seed', 100, 1, 'item_standard', 1, 'Seed used to plant coca crops.'),
     -- Packaging supplies
     ('plastic_baggie', 'Plastic Baggie', 100, 1, 'item_standard', 0, 'A small plastic baggie used for packaging.'),
     -- Wet buds (harvested directly from weed plants)
